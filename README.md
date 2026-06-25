@@ -1,32 +1,90 @@
-# React + TypeScript + Vite
+# 🌤️ 出门适宜度计算器
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+> **今天到底该不该出门？让科学（和玄学）来告诉你！**
 
-Currently, two official plugins are available:
+一个结合**实时天气数据 + 智能评分算法 + 心情调节因子**的趣味 Web 应用。输入城市，瞬间得出"出门适宜度"评分，附赠毒舌/暖心推荐语 😄
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## ✨ 功能特色
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| 功能 | 说明 |
+|------|------|
+| 🌡️ **实时天气** | 接入 wttr.in 全球天气数据，自动定位或搜索城市 |
+| 🎯 **7 维评分** | 温度 / 天气 / 风力 / 湿度 / 时段 / 星期 / 心情 综合计算 |
+| 😊 **心情调节** | 拖动滑块告诉 AI 你今天心情如何，影响最终分数 |
+| ☂️ **附加选项** | 带伞？有车？系统自动给你加分！ |
+| 🎨 **炫酷 UI** | 暗色毛玻璃风格 + SVG 环形得分仪表盘 + 数字滚动动画 |
+| 📊 **详细分析** | 每个维度的单独评分，看看是哪个因素拖了后腿 |
+| 📍 **自动定位** | 浏览器定位 + IP 定位双重保障 |
+| 🌏 **全球城市** | 支持任何城市，输入中文或英文名均可 |
 
-## Expanding the Oxlint configuration
+## 🧮 评分算法
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```
+出门适宜度 = Σ(维度评分 × 维度权重) × 心情系数 + 额外加成
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+| 维度 | 权重 | 满分条件 | 零分条件 |
+|------|------|----------|----------|
+| 🌡️ 温度 | 25% | 18–28°C | 零下 / 40°C+ |
+| ⛅ 天气 | 30% | 晴 / 多云 | 雷暴 / 冰雹 |
+| 💨 风力 | 15% | ≤5 km/h | ≥40 km/h |
+| 💧 湿度 | 10% | 40–60% | >90% / <20% |
+| ⏰ 时段 | 10% | 下午 14–18 点 | 深夜 21–6 点 |
+| 📅 星期 | 10% | 周末 | 工作日 |
+| 😊 心情 | 调节系数 | 心情 8–10 | 心情 1–3 |
+
+**额外加成：** 带伞 +5% · 有车 +8%
+
+## 🚀 快速启动
+
+```bash
+# 安装依赖
+npm install
+
+# 启动开发服务器
+npm run dev
+
+# 构建生产版本
+npm run build
+```
+
+打开 **http://localhost:5173** 即可食用 🌮
+
+## 🛠️ 技术栈
+
+- **框架：** React 19 + TypeScript
+- **构建：** Vite 8
+- **天气 API：** [wttr.in](https://wttr.in)（免费，无需 API Key）
+- **样式：** 纯 CSS（暗色毛玻璃风格）
+- **定位：** 浏览器 Geolocation API + ipapi.co 回退
+
+## 📁 项目结构
+
+```
+src/
+├── api/weather.ts           # 天气 API 封装
+├── utils/score.ts           # 评分算法核心
+├── hooks/useWeather.ts      # 天气数据 Hook（含自动定位）
+├── components/
+│   ├── LocationInput.tsx    # 城市搜索 + 定位按钮
+│   ├── WeatherDisplay.tsx   # 实时天气面板
+│   ├── MoodSelector.tsx     # 心情选择 + 附加选项
+│   ├── ScoreMeter.tsx       # SVG 环形评分仪表盘
+│   ├── Recommendation.tsx   # 趣味推荐语
+│   └── FactorBreakdown.tsx  # 各维度详细分析
+├── types.ts                 # 类型定义
+├── App.tsx                  # 主页面
+└── index.css                # 全局样式
+```
+
+## 📜 免责声明
+
+> 本应用的评分仅供娱乐参考 😄  
+> 出门开心最重要，刮风下雨也挡不住想出去浪的心！  
+> 数据来自 wttr.in，请以当地气象部门预报为准。
+
+---
+
+**如果觉得有趣，给个 ⭐ 吧！** 🌟
